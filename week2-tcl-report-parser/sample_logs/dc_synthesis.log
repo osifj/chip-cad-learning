@@ -1,0 +1,110 @@
+============================================================
+  Synopsys Design Compiler (TM)
+  Version: T-2024.03-SP1
+  Design:  aes_core_top
+  Date:    2025-06-15 14:32:10
+  Host:    eda-server-07
+============================================================
+
+Info: Loading technology library... (ID: LIB-001)
+Info: Technology: tsmc7nm  (ID: LIB-002)
+Info: Loading RTL files... (ID: RTL-001)
+Info:   aes_encrypt.v
+Info:   aes_decrypt.v
+Info:   aes_key_expand.v
+Info:   aes_sbox.v
+Info:   aes_mixcolumns.v
+Info: Elaborating design 'aes_core_top'... (ID: ELAB-001)
+Warning: Unconnected port 'scan_enable' on instance 'u_sbox_03' (ID: WARN-101)
+Warning: Unconnected port 'scan_enable' on instance 'u_sbox_07' (ID: WARN-101)
+Info: Elaboration complete. 45231 cells. (ID: ELAB-002)
+
+============================================================
+  Area Report
+============================================================
+Library: tsmc7nm_slow.db
+
+Combinational area:      18456.32 um^2
+Noncombinational area:   12345.67 um^2
+Buffer/Inverter area:    2340.11 um^2
+------------------------------------------------------------
+Total cell area:         33142.10 um^2
+Total area (with wire):  42150.89 um^2
+============================================================
+
+============================================================
+  Power Report
+============================================================
+Power Group          Internal Power   Switching Power   Leakage Power   Total Power
+----------------------------------------------------------------------------------------
+clock_network        2.340 mW         1.120 mW          0.210 mW        3.670 mW
+register             5.678 mW         3.210 mW          0.890 mW        9.778 mW
+combinational        8.901 mW         4.560 mW          1.230 mW        14.691 mW
+sequential           0.000 mW         0.000 mW          0.000 mW        0.000 mW
+memory               0.000 mW         0.000 mW          0.000 mW        0.000 mW
+io_pad               0.000 mW         0.000 mW          0.000 mW        0.000 mW
+----------------------------------------------------------------------------------------
+Total                16.919 mW        8.890 mW          2.330 mW        28.139 mW
+============================================================
+
+============================================================
+  Timing Report (Worst Paths)
+============================================================
+Path 1: clk -> u_enc/aes_round[3]/result_reg[7]/D
+------------------------------------------------------------
+  Startpoint:  u_enc/aes_round[3]/state_reg[0]/Q
+  Endpoint:    u_enc/aes_round[3]/result_reg[7]/D
+  Path Group:  clk
+  Path Type:   max
+------------------------------------------------------------
+  data arrival time:                                         0.934
+  data required time:                                       1.265
+------------------------------------------------------------
+  slack (MET):                                               0.331
+============================================================
+
+Path 2: clk -> u_dec/aes_inv_round[7]/key_reg[3]/D
+------------------------------------------------------------
+  Startpoint:  u_dec/aes_inv_round[7]/key_state[3]/Q
+  Endpoint:    u_dec/aes_inv_round[7]/key_reg[3]/D
+  Path Group:  clk
+  Path Type:   max
+------------------------------------------------------------
+  data arrival time:                                         1.102
+  data required time:                                       1.265
+------------------------------------------------------------
+  slack (MET):                                               0.163
+============================================================
+
+Path 3: clk -> u_keyexp/rcon_lookup/next_key[15]/D
+------------------------------------------------------------
+  Startpoint:  u_keyexp/current_key_reg[15]/Q
+  Endpoint:    u_keyexp/rcon_lookup/next_key[15]/D
+  Path Group:  clk
+  Path Type:   max
+------------------------------------------------------------
+  data arrival time:                                         1.365
+  data required time:                                       1.265
+------------------------------------------------------------
+  slack (VIOLATED):                                        -0.100
+============================================================
+
+============================================================
+  DRC Report
+============================================================
+  Max Transition violations: 3
+  Max Capacitance violations: 1
+  Max Fanout violations: 0
+============================================================
+
+============================================================
+  Cell Count Report
+============================================================
+  Sequential cells:     12340
+  Combinational cells:  32891
+  Total cells:          45231
+============================================================
+
+Info: Synthesis completed successfully. (ID: SYN-001)
+Info: Total CPU time: 342.56 seconds. (ID: CPU-001)
+Info: Peak memory: 4.2 GB. (ID: MEM-001)

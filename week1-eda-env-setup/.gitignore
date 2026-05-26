@@ -1,0 +1,6 @@
+# Generated report files
+*.txt
+!README.md
+
+# macOS
+.DS_Store

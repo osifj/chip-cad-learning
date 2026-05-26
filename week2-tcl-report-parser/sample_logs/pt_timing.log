@@ -1,0 +1,126 @@
+============================================================
+  Synopsys PrimeTime (TM)
+  Version: T-2024.03-SP2
+  Design:  aes_core_top (post-layout)
+  Date:    2025-06-16 09:15:42
+  Host:    eda-server-07
+  Scenario: func_ss_125c_cmin
+============================================================
+
+Info: Reading parasitic data... (ID: SPEF-001)
+Info:   aes_core_top.spef.gz
+Info: Reading SDC constraints... (ID: SDC-001)
+Info:   aes_core_top.sdc
+Info: Set operating conditions: ss_125c_cmin (ID: OP-001)
+
+============================================================
+  Area Report (post-layout)
+============================================================
+Combinational area:      19102.45 um^2
+Noncombinational area:   12890.33 um^2
+Buffer/Inverter area:    2567.89 um^2
+------------------------------------------------------------
+Total cell area:         34560.67 um^2
+============================================================
+
+============================================================
+  Power Report (post-layout)
+============================================================
+Power Group          Internal Power   Switching Power   Leakage Power   Total Power
+----------------------------------------------------------------------------------------
+clock_network        2.890 mW         1.450 mW          0.267 mW        4.607 mW
+register             6.123 mW         3.780 mW          1.102 mW        11.005 mW
+combinational        9.567 mW         5.230 mW          1.567 mW        16.364 mW
+----------------------------------------------------------------------------------------
+Total                18.580 mW        10.460 mW         2.936 mW        31.976 mW
+============================================================
+
+============================================================
+  Timing Report (setup, ss_125c_cmin)
+============================================================
+Path 1: clk -> u_enc/aes_round[7]/state_reg[15]/D (setup)
+------------------------------------------------------------
+  Startpoint:  u_enc/aes_round[6]/state_reg[12]/Q
+  Endpoint:    u_enc/aes_round[7]/state_reg[15]/D
+  Path Group:  clk
+  Path Type:   max
+------------------------------------------------------------
+  data arrival time (with parasitics):                      1.234
+  data required time (with uncertainty):                    1.180
+------------------------------------------------------------
+  slack (VIOLATED):                                        -0.054
+============================================================
+
+Path 2: clk -> u_dec/aes_inv_round[3]/state_reg[7]/D (setup)
+------------------------------------------------------------
+  Startpoint:  u_dec/aes_inv_round[2]/state_reg[15]/Q
+  Endpoint:    u_dec/aes_inv_round[3]/state_reg[7]/D
+  Path Group:  clk
+  Path Type:   max
+------------------------------------------------------------
+  data arrival time (with parasitics):                      1.189
+  data required time (with uncertainty):                    1.180
+------------------------------------------------------------
+  slack (VIOLATED):                                        -0.009
+============================================================
+
+Path 3: clk -> u_keyexp/key_rotate_reg[3]/D (setup)
+------------------------------------------------------------
+  Startpoint:  u_keyexp/prev_key_reg[3]/Q
+  Endpoint:    u_keyexp/key_rotate_reg[3]/D
+  Path Group:  clk
+  Path Type:   max
+------------------------------------------------------------
+  data arrival time (with parasitics):                      0.978
+  data required time (with uncertainty):                    1.180
+------------------------------------------------------------
+  slack (MET):                                              0.202
+============================================================
+
+Path 4: clk -> u_ctrl/fsm_state_reg[2]/D (setup)
+------------------------------------------------------------
+  Startpoint:  u_ctrl/input_sync_reg/Q
+  Endpoint:    u_ctrl/fsm_state_reg[2]/D
+  Path Group:  clk
+  Path Type:   max
+------------------------------------------------------------
+  data arrival time (with parasitics):                      0.856
+  data required time (with uncertainty):                    1.180
+------------------------------------------------------------
+  slack (MET):                                              0.324
+============================================================
+
+============================================================
+  Timing Report Summary
+============================================================
+  Setup paths analyzed:     42138
+  Setup paths MET:          42135
+  Setup paths VIOLATED:     3
+  Worst setup slack:        -0.089 ns
+============================================================
+
+============================================================
+  DRC Report
+============================================================
+  Max Transition violations: 2
+  Max Capacitance violations: 0
+  Max Fanout violations: 0
+  Min Pulse Width violations: 1
+============================================================
+
+============================================================
+  Cell Count Report
+============================================================
+  Sequential cells:     12780
+  Combinational cells:  34562
+  Total cells:          47342
+============================================================
+
+Warning: Hold time check not performed. (ID: WARN-201)
+Warning: SI (crosstalk) analysis disabled. (ID: WARN-202)
+Warning: AOCV derating not applied. (ID: WARN-203)
+Warning: Clock reconvergence pessimism not removed. (ID: WARN-204)
+
+Info: Timing analysis completed. (ID: PT-001)
+Info: Total CPU time: 1256.78 seconds. (ID: CPU-002)
+Info: Peak memory: 6.8 GB. (ID: MEM-002)
