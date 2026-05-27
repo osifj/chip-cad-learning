@@ -17,7 +17,11 @@ Week 3 项目：芯片流片测试数据收集、管理及分析流程自动化�
 ## 快速开始
 
 ```bash
-pip3 install pandas matplotlib numpy
+# 如果你在本目录操作，安装仓库根目录的依赖清单
+python3 -m pip install -r ../requirements.txt
+
+# 如果只在当前目录操作，也可以直接安装
+python3 -m pip install pandas matplotlib numpy
 
 # 基本分析
 python3 scripts/analyze_testchip.py data/testchip_measurements.csv
@@ -50,3 +54,9 @@ chipcad analyze data/testchip_measurements.csv
 - 参数：Vth NMOS/PMOS、Idsat、Ioff、Fmax、Leakage
 - Speed bin：FAST / TYP / SLOW
 - 良率：97.5%（39/40 passed）
+
+## 面试讲法
+
+这个项目对应 JD 里的“IP 流片测试数据收集、管理及分析流程自动化”。可以这样介绍：
+
+> 我用 Python/pandas 做了一个 testchip 数据分析流水线，输入 CSV 测试数据，自动完成缺失值检查、IQR 异常值检测、良率统计、wafer 分组统计、speed bin 分布和图表/报告生成。这个工具模拟的是 CP 测试后把原始数据转成工程判断报告的流程。

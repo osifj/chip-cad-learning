@@ -84,13 +84,18 @@ def cmd_parse(log_file, fmt="text", output=None):
     return subprocess.run(args).returncode
 
 
-def cmd_analyze(csv_file, output_dir="outputs", no_plot=False):
+def cmd_analyze(csv_file, output_dir=None, no_plot=False):
     """Run Week 3 Python analysis pipeline."""
     script = os.path.join(W3_DIR, "scripts", "analyze_testchip.py")
     if not os.path.exists(script):
         print(f"Error: {script} not found")
         return 1
-    args = ["python3", script, csv_file, "--output-dir", output_dir]
+    csv_path = os.path.abspath(csv_file)
+    if output_dir is None:
+        output_path = os.path.join(W3_DIR, "outputs")
+    else:
+        output_path = os.path.abspath(output_dir)
+    args = ["python3", script, csv_path, "--output-dir", output_path]
     if no_plot:
         args.append("--no-plot")
     return subprocess.run(args).returncode
@@ -205,7 +210,7 @@ def main():
             print("Usage: chipcad analyze <csv_file> [--output-dir dir] [--no-plot]")
             sys.exit(1)
         csv_file = sys.argv[2]
-        out_dir = "outputs"
+        out_dir = None
         no_plot = False
         i = 3
         while i < len(sys.argv):

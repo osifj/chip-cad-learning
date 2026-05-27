@@ -47,7 +47,8 @@ except ImportError:
 
 if MISSING:
     print(f"缺少依赖: {', '.join(MISSING)}")
-    print(f"安装: pip3 install {' '.join(MISSING)}")
+    print(f"安装当前缺失依赖: python3 -m pip install {' '.join(MISSING)}")
+    print("或在仓库根目录安装全部依赖: python3 -m pip install -r requirements.txt")
     sys.exit(1)
 
 # ── 全局配置 ──

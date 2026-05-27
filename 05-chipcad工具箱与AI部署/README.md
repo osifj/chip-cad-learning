@@ -17,6 +17,9 @@ Week 5 项目：统一命令行工具箱，集成 Week 1-4 所有脚本，支持
 ## 快速开始
 
 ```bash
+# 回到仓库根目录后安装 Python 依赖
+python3 -m pip install -r requirements.txt
+
 # 添加执行权限
 chmod +x chipcad.sh
 
@@ -62,3 +65,7 @@ chipcad 通过路径引用调用前四周的项目：
 - 04-eda流程自动化框架 → `chipcad flow`
 
 不需要复制代码，各项目保持独立。
+
+## 对应岗位能力
+
+这个项目对应 JD 里的“AI 工具资源部署与应用支持”。重点不是让 AI 替你写完所有脚本，而是把常用 CAD 自动化任务沉淀成统一入口，并用 prompt 模板规范 AI 输出，最后仍然通过本地脚本验证。
