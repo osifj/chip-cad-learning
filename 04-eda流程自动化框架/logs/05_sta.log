@@ -1,0 +1,6 @@
+[STA] PrimeTime analysis for aes_core_top @ 1200MHz (period=.833ns)...
+  Setup paths:  42138 total, 42137 MET, 1 VIOLATED
+  Hold paths:   42138 total, 42138 MET
+  WNS (setup):  -0.054 ns
+  WNS (hold):    0.012 ns
+STA completed.

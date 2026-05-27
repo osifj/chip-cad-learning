@@ -1,16 +1,14 @@
-# macOS
 .DS_Store
-
-# Python
 __pycache__/
 *.pyc
-
-# Generated scripts
-gen_doc.py
-gen_doc_w2.py
-gen_manual_doc.py
+*/.synth_done
+*/.place_done
+*/.cts_done
+*/.route_done
+*/.sta_done
+*/.pv_done
+*/flow/
+*/outputs/
+*/reports/
+*/prompts/prompt_*.txt
 /tmp/
-
-# VM reports
-week1-eda-env-setup/setup_report.txt
-week2-tcl-report-parser/reports/*.txt

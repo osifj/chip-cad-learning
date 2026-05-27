@@ -1,0 +1,5 @@
+[CTS] Clock tree synthesis for aes_core_top...
+  Clock skew: 35 ps
+  Insertion delay: 180 ps
+  Buffers inserted: 234
+CTS completed.

@@ -1,0 +1,5 @@
+[PV] DRC/LVS for aes_core_top (tech: tsmc7nm)...
+  DRC checks:   12456 total, 0 violations
+  LVS checks:   passed (layout matches schematic)
+  Antenna checks:  passed
+Physical verification completed.

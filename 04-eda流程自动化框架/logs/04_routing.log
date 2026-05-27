@@ -1,0 +1,5 @@
+[Route] Global & detail routing for aes_core_top...
+  DRC violations (initial): 127
+  DRC violations (final): 0
+  Wirelength (final): 1.45e6 um
+Routing completed.

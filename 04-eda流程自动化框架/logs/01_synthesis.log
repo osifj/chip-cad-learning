@@ -1,0 +1,14 @@
+============================================
+  DC Synthesis: aes_core_top (tsmc7nm, 1200MHz)
+  Started: Wed May 27 09:22:32 HKT 2026
+============================================
+Loading technology library: tsmc7nm_slow.db
+Reading RTL: aes_core_top.v
+Elaborating design...
+  Cells: 45231
+Running compile_ultra...
+  Area: 33142.10 um^2
+  Slack (WNS): 0.331 ns
+  Total Power: 28.139 mW
+Synthesis completed successfully.
+Writing netlist: aes_core_top_synth.v
