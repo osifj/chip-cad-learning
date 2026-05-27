@@ -6,7 +6,7 @@
 
 这个仓库面向想入门芯片 CAD / EDA 流程自动化的同学，尤其适合准备“脚本工具编写、工作环境配置、Reference Flow/Testchip/IP QA 自动化、AI 工具部署”类实习岗位。
 
-如果你是零基础，先读：[docs/从零开始学习指南.md](docs/从零开始学习指南.md)。
+如果你是零基础，先读：[docs/零基础完整运行手册.md](docs/零基础完整运行手册.md)。
 
 ## 项目总览
 
@@ -26,7 +26,15 @@
 python3 -m pip install -r requirements.txt
 ```
 
-### 2. 先用统一入口试跑
+### 2. 运行一键自检
+
+```bash
+bash scripts/check_all.sh
+```
+
+看到 `All core demos passed.` 就说明核心 demo 都能跑。
+
+### 3. 先用统一入口试跑
 
 ```bash
 ./05-chipcad工具箱与AI部署/chipcad.sh
@@ -36,7 +44,7 @@ python3 -m pip install -r requirements.txt
 ./05-chipcad工具箱与AI部署/chipcad.sh flow status
 ```
 
-### 3. 分周单独运行
+### 4. 分周单独运行
 
 ```bash
 # Week 1: 检测环境
@@ -60,11 +68,31 @@ cd 04-eda流程自动化框架 && make all
 
 `docs/` 目录包含零基础完整讲解手册和项目交接文档：
 
-- `docs/从零开始学习指南.md`：按 JD 拆解学习路线，适合第一天阅读
-- `docs/VMware_操作手册_Week1_Week2.md`：VMware / Linux 操作手册
+- `docs/零基础完整运行手册.md`：从打开终端到跑通 5 个模块的总入口
+- `docs/命令逐行解释手册.md`：解释每条常用命令的含义
+- `docs/VMware_Ubuntu_零基础操作手册.md`：VMware / Ubuntu / SSH 小白操作说明
+- `docs/7天零基础学习计划.md`：每天学什么、跑什么、面试积累什么
+- `docs/面试讲法.md`：中文/英文项目介绍和常见问答
+- `docs/从零开始学习指南.md`：按 JD 拆解学习路线
+- `docs/VMware_操作手册_Week1_Week2.md`：早期 VMware / Linux 操作手册
 - `docs/项目交接文档_Codex.md`：给新 Codex 会话恢复上下文
 - `docs/Week1_EDA环境初始化脚本_完整讲解.docx`
 - `docs/Week2_Tcl_EDA_Log解析器_完整讲解.docx`
+
+## 自检脚本
+
+如果你不确定环境是否准备好，在仓库根目录运行：
+
+```bash
+bash scripts/check_all.sh
+```
+
+它会检查 Python、pip、Tcl、make、Python 依赖，并运行 Week 1-5 的关键 demo。失败时会给出类似这样的提示：
+
+```text
+[FAIL] Python packages are missing
+解决方法：在仓库根目录运行：python3 -m pip install -r requirements.txt
+```
 
 ## 环境要求
 

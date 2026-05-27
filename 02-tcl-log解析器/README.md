@@ -1,93 +1,192 @@
-# Week 2: Tcl EDA Log Parser & Report Generator
+# 02 Tcl Log 解析器
 
-芯片 CAD 工程师第二周项目 — 用 Tcl 解析综合/时序分析 Log 并生成报告。
+## 1. 这个项目是做什么的
 
-## 项目结构
+这个项目用 Tcl 解析模拟 EDA 工具日志。EDA 工具运行后会输出很多 log，里面包含面积、功耗、时序、warning、violation 等信息。人工翻 log 很慢，所以 CAD 工程师经常写脚本自动提取关键指标。
 
-```
-week2-tcl-report-parser/
-├── eda_report_parser.tcl       # 主解析脚本（~280 行）
-├── sample_logs/
-│   ├── dc_synthesis.log        # DC 综合 log 样本
-│   └── pt_timing.log           # PrimeTime 时序 log 样本
-├── reports/                    # 输出报告目录
-└── README.md
+主脚本：
+
+```text
+eda_report_parser.tcl
 ```
 
-## 快速开始
+样例输入：
+
+```text
+sample_logs/dc_synthesis.log
+sample_logs/pt_timing.log
+```
+
+## 2. 它对应真实 EDA 实习里的什么工作
+
+对应岗位能力：
+
+- Tcl 脚本。
+- Log parsing（日志解析）。
+- IP QA（IP 质量检查）。
+- Timing / area / power 摘要提取。
+- 把长 log 变成可读报告。
+
+真实场景例子：团队每天跑 regression flow，你需要自动统计哪些 design 有 timing violation、warning 变多、面积功耗异常。
+
+## 3. 运行前需要知道什么
+
+你只需要先理解：
+
+- `tclsh` 是 Tcl 解释器。
+- `.tcl` 文件是 Tcl 脚本。
+- log 文件是普通文本文件。
+- parser 的输入是 log，输出是 summary / report / json / csv。
+
+Tcl 在 EDA 中很重要，因为很多 Synopsys / Cadence 工具都支持 Tcl 命令。
+
+## 4. Mac 上一步一步运行
+
+打开 Terminal，进入项目根目录：
 
 ```bash
-# 解析 DC 综合 log
-tclsh eda_report_parser.tcl sample_logs/dc_synthesis.log
+cd /Users/dep/Documents/Codex/2026-05-25/7-1-2-3-reference-flow
+```
 
-# 解析 PT 时序 log
-tclsh eda_report_parser.tcl sample_logs/pt_timing.log
+进入 Week 2：
 
-# 一行摘要（适合脚本调用）
+```bash
+cd 02-tcl-log解析器
+```
+
+解析 DC 综合 log：
+
+```bash
 tclsh eda_report_parser.tcl sample_logs/dc_synthesis.log -summary
+```
 
-# JSON 格式输出
+命令解释：
+
+- `tclsh`：运行 Tcl 脚本的程序。
+- `eda_report_parser.tcl`：本项目的解析器。
+- `sample_logs/dc_synthesis.log`：输入 log。
+- `-summary`：只输出一行摘要。
+
+正常输出：
+
+```text
+>>> Parsing: sample_logs/dc_synthesis.log
+aes_core_top | area=33142.10 | power=28.139 | cells=45231 | slack=-0.100 | violated=1 | warn=2
+```
+
+解析 PT 时序 log：
+
+```bash
+tclsh eda_report_parser.tcl sample_logs/pt_timing.log -summary
+```
+
+输出 JSON：
+
+```bash
 tclsh eda_report_parser.tcl sample_logs/dc_synthesis.log -json
+```
 
-# CSV 格式输出
-tclsh eda_report_parser.tcl sample_logs/dc_synthesis.log -csv
+保存报告：
 
-# 保存报告到文件
+```bash
+mkdir -p reports
 tclsh eda_report_parser.tcl sample_logs/dc_synthesis.log -o reports/dc_report.txt
 ```
 
-## 提取的数据
+## 5. VMware Ubuntu 上一步一步运行
 
-| 类别 | 提取内容 | 来源 |
-|------|---------|------|
-| Area | Total cell area (um^2) | DC/PT Area Report |
-| Power | Total power (mW) | DC/PT Power Report |
-| Timing | Path count, MET/VIOLATED, worst slack, path details | DC/PT Timing Report |
-| Cells | Total cell count | Cell Count Report |
-| DRC | Max transition/capacitance/fanout violations | DRC Report |
-| Warnings | Total warning count | 全文 Warning: 匹配 |
+1. 打开 VMware。
+2. 启动 Ubuntu。
+3. 按 `Ctrl + Alt + T` 打开 Terminal。
+4. 输入：
 
-## Tcl 语法学习要点
+```bash
+cd ~/chip-cad-learning
+cd 02-tcl-log解析器
+tclsh eda_report_parser.tcl sample_logs/dc_synthesis.log -summary
+```
 
-| 语法 | 说明 | 脚本中出现位置 |
-|------|------|---------------|
-| `set var value` | 赋值 | 全局变量定义 |
-| `$var` | 取值 | 所有变量引用 |
-| `[command ...]` | 命令替换（= Shell 的 `$(...)`) | `[llength $list]` |
-| `proc name {args} {body}` | 定义函数 | 所有解析函数 |
-| `regexp {pattern} $str -> $v1` | 正则匹配捕获 | 所有提取行 |
-| `dict create / dict set / dict get` | 字典操作 | 时序路径存储 |
-| `lappend list $item` | 列表追加 | 收集行/路径 |
-| `foreach item $list { ... }` | 遍历 | 所有循环 |
-| `switch -exact -- $val { ... }` | 分支 | 参数解析 |
-| `for {set i 0} {$i < $n} {incr i}` | C 风格循环 | 参数遍历 |
-| `if {cond} { ... } elseif { ... }` | 条件 | 到处 |
-| `string match "pat*" $str` | 通配符匹配 | 区块检测 |
-| `format` | 格式化字符串 | 报告输出 |
-| `open / close / puts / read` | 文件 IO | 读取 log / 写报告 |
-| `[split $text "\n"]` | 字符串转列表 | 读文件后按行分割 |
+如果提示 `tclsh: command not found`：
 
-## Tcl 与 Shell 的关键区别
+Ubuntu：
 
-| | Tcl | Shell |
-|---|-----|-------|
-| 注释 | `#` | `#` |
-| 赋值 | `set x 5` | `x=5`（不能有空格） |
-| 取值 | `$x` | `$x` |
-| 命令替换 | `[expr 1+2]` | `$(expr 1+2)` |
-| 条件 | `if {$x > 0} { ... }` | `if [[ $x -gt 0 ]]; then ... fi` |
-| 函数 | `proc name {args} {body}` | `name() { ... }` |
-| 列表 | `list a b c` → `a b c` | `arr=(a b c)` |
-| 字典 | `dict create k v` | `declare -A arr; arr[k]=v` |
+```bash
+sudo apt install tcl
+```
 
-## 练习建议
+CentOS：
 
-1. 加一个 `-grep` 选项，支持只输出匹配关键词的时序路径（如只显示 VIOLATED 的）
-2. 加面积利用率计算：从 log 中提取 Combinational/Noncombinational 面积并算比例
-3. Shell + Tcl 混合脚本：写一个 Shell 脚本调用 tclsh 解析多个 log 文件并汇总
+```bash
+sudo dnf install tcl
+```
 
-## Week 1 → Week 2 衔接思路
+## 6. 输入文件是什么
 
-Week 1 的 `check_deps.sh` 会检测 `tclsh` 是否安装。
-Week 2 证明了 Tcl 在 EDA 中的核心地位——所有 EDA 工具的 log 都可以用 Tcl 正则解析。
-入职后你可以把这个解析器改造成公司内部的 Dashboard 数据源。
+输入是 EDA 工具 log 样本：
+
+- `dc_synthesis.log`：模拟 Synopsys Design Compiler 综合报告。
+- `pt_timing.log`：模拟 PrimeTime 时序报告。
+
+脚本会从 log 中提取：
+
+- design name。
+- total cell area。
+- total power。
+- cell count。
+- timing paths。
+- worst slack。
+- DRC violations。
+- warning 数量。
+
+## 7. 输出结果是什么
+
+支持 4 种输出：
+
+```bash
+tclsh eda_report_parser.tcl sample_logs/dc_synthesis.log
+tclsh eda_report_parser.tcl sample_logs/dc_synthesis.log -summary
+tclsh eda_report_parser.tcl sample_logs/dc_synthesis.log -json
+tclsh eda_report_parser.tcl sample_logs/dc_synthesis.log -csv
+```
+
+保存文件：
+
+```bash
+tclsh eda_report_parser.tcl sample_logs/dc_synthesis.log -o reports/dc_report.txt
+```
+
+判断成功：
+
+- 输出里有 design 名字。
+- `area`、`power`、`cells` 有数值。
+- `slack` 有数值。
+- 保存报告后 `reports/dc_report.txt` 存在。
+
+## 8. 常见错误和解决方法
+
+| 错误 | 原因 | 解决 |
+|---|---|---|
+| `tclsh: command not found` | 没装 Tcl | Ubuntu: `sudo apt install tcl` |
+| `Error: log file not found` | log 路径错 | 运行 `ls sample_logs` |
+| `No such file or directory` | 不在 Week 2 目录 | 运行 `pwd` 确认 |
+| 输出全是 0 | log 格式和 parser 规则不匹配 | 先用样例 log 验证 |
+
+## 9. 我应该掌握什么
+
+学完这个项目，你要能说清：
+
+- Tcl 的 `set`、`proc`、`regexp`、`dict`、`foreach` 基本作用。
+- log parser 的输入和输出。
+- worst slack 负数表示 timing violation。
+- warning/error 数量可以作为 QA 指标。
+- 为什么 summary/json/csv 输出适合自动化流程。
+
+## 10. 面试怎么讲
+
+中文：
+
+> 我用 Tcl 做了一个 EDA log parser，输入模拟 DC/PT log，自动提取 area、power、cell count、worst slack、timing violation 和 warning 数量。它支持 text、summary、json、csv 输出，可以作为 IP QA 或 flow regression 的报告基础。
+
+English:
+
+> I implemented a Tcl-based EDA log parser for simulated DC/PT reports. It extracts area, power, cell count, worst slack, timing violations and warning counts, and supports text, summary, JSON and CSV outputs. This is related to log parsing and IP QA automation in CAD flows.
