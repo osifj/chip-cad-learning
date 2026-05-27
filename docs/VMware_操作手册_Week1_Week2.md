@@ -415,3 +415,92 @@ scp -r ~/Documents/Codex/2026-05-25/7-1-2-3-reference-flow/week1-eda-env-setup/*
 ---
 
 > 手册版本：2026-05-26 · 对应 Week 1 + Week 2
+
+
+---
+
+# 补充：Week 3-5 已部署
+
+Week 3/4/5 已通过 `git clone` 部署到 VM。项目目录从 `week1-eda-env-setup` 改名为 `chip-cad-learning/`，内部结构：
+
+```bash
+cd ~/chip-cad-learning
+ls
+# → 01-shell环境脚本学习/  02-tcl-log解析器/  03-python测试数据流水线/
+#   04-eda流程自动化框架/  05-chipcad工具箱与AI部署/  docs/  README.md
+```
+
+## Week 3：Python 测试数据流水线
+
+```bash
+cd ~/chip-cad-learning/03-python测试数据流水线
+
+# 安装依赖（首次）
+pip3 install pandas matplotlib numpy
+
+# 分析测试数据
+python3 scripts/analyze_testchip.py data/testchip_measurements.csv
+
+# HTML 报告
+python3 scripts/analyze_testchip.py data/testchip_measurements.csv --report html
+
+# 通过统一工具箱调用
+cd ~/chip-cad-learning
+./05-chipcad工具箱与AI部署/chipcad.sh analyze 03-python测试数据流水线/data/testchip_measurements.csv
+```
+
+## Week 4：EDA 流程自动化框架
+
+```bash
+cd ~/chip-cad-learning/04-eda流程自动化框架
+
+# 跑全流程（6步，约3秒）
+make all
+
+# 单步执行
+make synth
+make sta
+
+# 查看状态
+make status
+
+# 从头重跑
+RESUME=0 make all
+```
+
+## Week 5：chipcad 统一工具箱
+
+```bash
+cd ~/chip-cad-learning
+
+# 查看所有命令
+./05-chipcad工具箱与AI部署/chipcad.sh
+
+# 环境检测（调用 Week 1）
+./05-chipcad工具箱与AI部署/chipcad.sh env check
+
+# 解析 log（调用 Week 2）
+./05-chipcad工具箱与AI部署/chipcad.sh parse 02-tcl-log解析器/sample_logs/dc_synthesis.log --format summary
+
+# 分析数据（调用 Week 3）
+./05-chipcad工具箱与AI部署/chipcad.sh analyze 03-python测试数据流水线/data/testchip_measurements.csv
+
+# 跑流程（调用 Week 4）
+./05-chipcad工具箱与AI部署/chipcad.sh flow run
+
+# AI 辅助生成脚本
+./05-chipcad工具箱与AI部署/chipcad.sh ai prompt "写一个Tcl脚本解析DC综合log中的所有Warning"
+```
+
+## 项目更新方法
+
+当 GitHub 上有新版本时，在 VM 里拉取：
+
+```bash
+cd ~/chip-cad-learning
+git pull origin master
+```
+
+## 旧路径迁移
+
+旧的项目路径 `~/week1-eda-env-setup` 和 `~/week2-tcl-report-parser` 仍可用但不再更新。建议改用 `~/chip-cad-learning/01-shell环境脚本学习/` 和 `~/chip-cad-learning/02-tcl-log解析器/`。
